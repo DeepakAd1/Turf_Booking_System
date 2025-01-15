@@ -2,12 +2,13 @@ package com.example.tutorial.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 
 @Entity
 @Table(name = "user_details")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     @SequenceGenerator(name = "user_seq", sequenceName = "USER_SEQ", allocationSize = 1)
@@ -28,8 +29,8 @@ public class User {
     private String emailId;
     @Column(name="phone_number")
     private String phoneNumber;
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Booking> bookings;
+//    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+//    private List<Booking> bookings;
 
     public long getUserId() {
         return userId;
@@ -55,24 +56,24 @@ public class User {
         this.emailId = emailId;
     }
 
-    public List<Booking> getBookings() {
-        return bookings;
-    }
-
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
-    }
+//    public List<Booking> getBookings() {
+//        return bookings;
+//    }
+//
+//    public void setBookings(List<Booking> bookings) {
+//        this.bookings = bookings;
+//    }
 
     public User() {
     }
 
 
-    public User(long userId, String userName, String emailId, String phoneNumber, List<Booking> bookings) {
+    public User(long userId, String userName, String emailId, String phoneNumber){//List<Booking> bookings) {
         this.userId = userId;
         this.userName = userName;
         this.emailId = emailId;
         this.phoneNumber = phoneNumber;
-        this.bookings = bookings;
+        //this.bookings = bookings;
     }
 
     @Override
@@ -82,7 +83,7 @@ public class User {
                 ", userName='" + userName + '\'' +
                 ", emailId='" + emailId + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", bookings=" + bookings +
+              //  ", bookings=" + bookings +
                 '}';
     }
 }

@@ -13,7 +13,7 @@ public interface UserService {
 
     public User save(User user);
 
-    ResponseEntity<User> findUserById(long id) throws UserNotFound;
+    User findUserById(long id) throws UserNotFound;
 
     public boolean deleteUserById(long id);
 

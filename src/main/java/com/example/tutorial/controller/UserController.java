@@ -25,7 +25,7 @@ public class UserController {
 
     @GetMapping("/getUser/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") long id) throws UserNotFound {
-        return userService.findUserById(id);
+        return ResponseEntity.ok(userService.findUserById(id));
     }
 
     @PostMapping("/addUser")

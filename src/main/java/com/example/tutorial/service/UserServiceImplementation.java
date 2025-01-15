@@ -1,9 +1,13 @@
 package com.example.tutorial.service;
 
+import com.example.tutorial.entity.CacheNames;
 import com.example.tutorial.entity.User;
 import com.example.tutorial.exception.UserNotFound;
 import com.example.tutorial.repository.UserRepositority;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,24 +21,28 @@ public class UserServiceImplementation implements UserService{
     UserRepositority userRepo;
 
     @Override
+    @Cacheable(value = CacheNames.ALL_USERS_CACHE)
     public List<User> fetchUserList(){
         return userRepo.findAll();
     }
 
     @Override
+
     public User save(User user){
         userRepo.save(user);
         return user;
     }
 
     @Override
-    public ResponseEntity<User> findUserById(long id) throws UserNotFound {
+    @Cacheable(key = "#id",value = CacheNames.USERS_CACHE)
+    public User findUserById(long id) throws UserNotFound {
         User user=userRepo.findById(id).orElse(null);
         if(user==null) throw new UserNotFound("user not found");
-        return ResponseEntity.ok(user);
+        return user;
     }
 
     @Override
+    @CacheEvict(key = "#id", value = CacheNames.USERS_CACHE)
     public boolean deleteUserById(long id) {
         if (userRepo.existsById(id)) {
             userRepo.deleteById(id);
@@ -45,6 +53,7 @@ public class UserServiceImplementation implements UserService{
     }
 
     @Override
+    @CachePut(key = "#id", value = CacheNames.USERS_CACHE)
     public User updateUserById(long id, User user) {
         // Fetch the existing user by ID
         User userDetail = userRepo.findById(id).orElse(null);
