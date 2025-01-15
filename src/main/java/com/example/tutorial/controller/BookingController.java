@@ -40,7 +40,7 @@ public class BookingController {
         if (isFree) {
             return ResponseEntity.ok("The slot is available for booking.");
         } else {
-            return ResponseEntity.ok("The slot is already booked.");
+            return ResponseEntity.ok("The slot is booked.");
         }
     }
 }

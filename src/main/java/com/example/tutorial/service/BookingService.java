@@ -2,6 +2,7 @@ package com.example.tutorial.service;
 
 import com.example.tutorial.entity.Booking;
 import com.example.tutorial.entity.Slot;
+import com.example.tutorial.entity.TurfDetails;
 import com.example.tutorial.entity.User;
 import com.example.tutorial.repository.BookingRepository;
 import com.example.tutorial.repository.SlotRepositority;
@@ -32,6 +33,8 @@ public class BookingService {
         Slot slot = slotRepository.findById(slotId)
                 .orElseThrow(() -> new RuntimeException("Slot not found"));
 
+        TurfDetails turfDetails = slot.getTurf();
+
         // Ensure the Slot is not already booked
         if (slot.getBooking() != null) {
             throw new RuntimeException("Slot is already booked.");
@@ -41,7 +44,7 @@ public class BookingService {
         Booking booking = new Booking();
         booking.setUser(user);
         booking.setSlot(slot);
-
+        booking.setTurfDetails(turfDetails);
         // Link the Slot to the Booking
         slot.setBooking(booking);
 

@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFound.class)
-    public ResponseEntity<ExceptionMessage> userNotFoud(UserNotFound userNotFound, WebRequest request){
+    public ResponseEntity<ExceptionMessage> userNotFound(UserNotFound userNotFound, WebRequest request){
         ExceptionMessage message=new ExceptionMessage(HttpStatus.NOT_FOUND,userNotFound.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
