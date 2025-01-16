@@ -1,11 +1,14 @@
 package com.example.tutorial.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class TurfDetails {
+public class TurfDetails implements Serializable {
 
     @Id
     @SequenceGenerator(name="turf_seq",sequenceName = "TURF_SEQ",allocationSize = 10)
@@ -16,6 +19,8 @@ public class TurfDetails {
     private String turfLocation;
 
     @OneToMany(mappedBy = "turf",cascade = CascadeType.ALL,orphanRemoval = true)
+
+    @JsonIgnore
     private List<Slot> slots;
 
     public TurfDetails(long turfId, String turfName, String emailId, String turfLocation, List<Slot> slots) {

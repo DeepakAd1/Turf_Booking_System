@@ -12,7 +12,7 @@ import java.util.List;
 public interface TurfService {
     public List<TurfDetails> fetchTurfList();
 
-    public ResponseEntity<TurfDetails> findTurfById(long id) throws UserNotFound;
+    public TurfDetails findTurfById(long id) throws UserNotFound;
 
     public TurfDetails save(TurfDetails turfDetails);
 

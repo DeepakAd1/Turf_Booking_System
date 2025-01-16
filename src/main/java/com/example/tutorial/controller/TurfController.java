@@ -24,7 +24,7 @@ public class TurfController {
 
     @GetMapping("/getTurf/{id}")
     public ResponseEntity<TurfDetails> getTurfById(@PathVariable("id") long id) throws UserNotFound {
-        return turfService.findTurfById(id);
+        return ResponseEntity.ok(turfService.findTurfById(id));
     }
 
     @PostMapping("/addTurf")

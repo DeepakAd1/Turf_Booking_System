@@ -4,7 +4,9 @@ import com.example.tutorial.entity.TurfDetails;
 import com.example.tutorial.exception.UserNotFound;
 import com.example.tutorial.repository.TurfRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,15 +19,17 @@ public class TurfServiceImplementation implements TurfService{
     private TurfRepository turfRepo;
     
     @Override
+    @Cacheable(key = "allTurfs",value = "ALL_TURFS_CACHE")
     public List<TurfDetails> fetchTurfList(){
         return turfRepo.findAll();
     }
     
     @Override
-    public ResponseEntity<TurfDetails> findTurfById(long id) throws UserNotFound {
+    @Cacheable(key = "#id", value = "TURF_CACHE")
+    public TurfDetails findTurfById(long id) throws UserNotFound {
         TurfDetails turf=turfRepo.findById(id).orElse(null);
         if(turf==null) throw new UserNotFound("user not found");
-        return ResponseEntity.ok(turf);
+        return turf;
     }
     
     @Override
@@ -35,6 +39,7 @@ public class TurfServiceImplementation implements TurfService{
     }
     
     @Override
+    @CacheEvict(key = "#id", value = "TURF_CACHE")
     public boolean deleteTurfById(long id){
         if (turfRepo.existsById(id)) {
             turfRepo.deleteById(id);
@@ -45,6 +50,7 @@ public class TurfServiceImplementation implements TurfService{
     }
     
     @Override
+    @CachePut(key = "#id", value = "TURF_CACHE")
     public TurfDetails updateTurfById(long id, TurfDetails turfDetails){
         TurfDetails turf = turfRepo.findById(id).orElse(null);
 

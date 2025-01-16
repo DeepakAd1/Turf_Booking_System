@@ -1,5 +1,6 @@
 package com.example.tutorial.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ public class Slot {
 
     @ManyToOne
     @JoinColumn(name = "turf_id", nullable = false) // Foreign key for TurfDetails
+
     private TurfDetails turf;
 
     @OneToOne(mappedBy = "slot", cascade = CascadeType.ALL)
